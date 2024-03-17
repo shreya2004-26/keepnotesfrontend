@@ -3,9 +3,12 @@ import React from "react";
 const Header = () => {
   return (
     <>
-      <div className="flex flex-row justify-between">
-        <h1>Keep Notes</h1>
-        <div>
+      <div
+        className="flex flex-row w-full justify-between px-10 bg-[#0085A8] py-5
+       text-white items-center"
+      >
+        <h1 className="text-2xl font-semibold">Keep Notes</h1>
+        <div className="flex flex-row gap-2 items-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -21,7 +24,7 @@ const Header = () => {
             />
           </svg>
 
-          <h1>Shreya Singh</h1>
+          <h1 className="text-lg font-semibold">Shreya Singh</h1>
         </div>
       </div>
     </>

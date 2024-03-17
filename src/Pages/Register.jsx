@@ -1,7 +1,12 @@
 import React from "react";
+import RegisterCard from "../Components/RegisterCard";
 
 const Register = () => {
-  return <div>Register</div>;
+  return (
+    <>
+      <RegisterCard />
+    </>
+  );
 };
 
 export default Register;
