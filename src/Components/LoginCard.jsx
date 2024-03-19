@@ -1,6 +1,40 @@
-import React from "react";
-
+import axios from "axios";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 const LoginCard = () => {
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const navigate = useNavigate();
+  const handleSubmit = async () => {
+    const res = await axios.post("http://localhost:8000/api/login", formData);
+    // console.log(res.data)
+    const { success, message } = res.data;
+    if (success) {
+      toast.success(message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      setFormData({ name: "", email: "", password: "" });
+      navigate("/");
+    } else {
+      toast.error(message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    }
+  };
   return (
     <>
       <div className="flex flex-col justify-center items-center bg-[#0085A8] min-h-screen">
@@ -29,6 +63,10 @@ const LoginCard = () => {
                 className="outline-none"
                 type="email"
                 placeholder="Email Address"
+                value={formData.email}
+                onChange={(e) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
               />
             </div>
             <div className="flex flex-row gap-2 items-center border-gray-600 border-[1px] px-2 py-1 mt-2">
@@ -51,19 +89,29 @@ const LoginCard = () => {
                 className="outline-none"
                 type="password"
                 placeholder="Password"
+                value={formData.password}
+                onChange={(e) =>
+                  setFormData({ ...formData, password: e.target.value })
+                }
               />
             </div>
           </div>
           <h1 className="text-sm font-semibold">Reset Password?</h1>
-          <button className="font-semibold text-lg bg-[#0085A8] py-1 mt-3">
+          <button
+            className="font-semibold text-lg bg-[#0085A8] py-1 mt-5 text-white"
+            onClick={handleSubmit}
+          >
             Login
           </button>
           <h1 className="text-sm font-semibold">
             Not a member?
-            <span className="text-[#0085A8] text-sm cursor-pointer">
+            <Link
+              to="/register"
+              className="text-[#0085A8] text-sm cursor-pointer"
+            >
               {" "}
               Signup Now
-            </span>
+            </Link>
           </h1>
         </div>
       </div>

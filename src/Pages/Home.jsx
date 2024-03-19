@@ -7,10 +7,10 @@ import RegisterCard from "../Components/RegisterCard";
 const Home = () => {
   return (
     <>
-      {/* <Header />
-      <HomeContainer /> */}
+      <Header />
+      <HomeContainer />
       {/* <LoginCard /> */}
-      <RegisterCard />
+      {/* <RegisterCard /> */}
     </>
   );
 };
