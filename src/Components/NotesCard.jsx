@@ -1,17 +1,53 @@
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
+import { toast } from "react-toastify";
 
-const NotesCard = () => {
+const NotesCard = ({ title, description, id, apiData, setApiData }) => {
+  const handleClick = async () => {
+    const res = await axios.delete(
+      `http://localhost:8000/api/notes/?email=${localStorage.getItem(
+        "email"
+      )}&id=${id}`
+    );
+
+    if (res.data.success) {
+      toast.success(res.data.message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      setApiData(res.data.data.notes);
+    } else {
+      toast.error(res.data.message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    }
+  };
   return (
     <>
       <div className="flex flex-col w-[260px] bg-[#0085A8] py-6 px-5 mt-7 text-white gap-3 rounded-md">
-        <h1 className="font-semibold">Shayari</h1>
+        <h1 className="font-semibold">{title}</h1>
         <textarea
           className="resize-none bg-[#0085A8] outline-none"
           // name=""
           id=""
           cols="20"
           rows="3"
-        ></textarea>
+        >
+          {description}
+        </textarea>
         <div className="flex flex-row gap-2">
           <button className="cursor-pointer">
             <svg
@@ -29,7 +65,7 @@ const NotesCard = () => {
               />
             </svg>
           </button>
-          <button className="cursor-pointer">
+          <button onClick={handleClick} className="cursor-pointer">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"

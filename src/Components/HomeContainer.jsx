@@ -1,9 +1,51 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "./Header";
 import NotesCard from "./NotesCard";
 import NotesContainer from "./NotesContainer";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const HomeContainer = () => {
+  const [formData, setFormData] = useState({ title: "", description: "" });
+  const [apiData, setApiData] = useState(null);
+
+  const handleClick = async () => {
+    // console.log(formData);
+    const res = await axios.post("http://localhost:8000/api/notes/", {
+      email: localStorage.getItem("email"),
+      ...formData,
+    });
+    console.log(res);
+    // console.log(formData);
+    if (res.data.success) {
+      // console.log(res.data.success);
+      toast.success(res.data.message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+
+      setApiData(res.data.data.success);
+      setFormData({ title: "", description: "" });
+    } else {
+      toast.error(res.data.message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    }
+  };
+
   return (
     <>
       <div className="flex flex-col gap-6 max-h-screen items-center">
@@ -13,6 +55,10 @@ const HomeContainer = () => {
               type="text"
               placeholder="Title"
               className="text-white text-lg bg-[#0085A8] outline-none font-semibold"
+              value={formData.title}
+              onChange={(e) =>
+                setFormData({ ...formData, title: e.target.value })
+              }
             />
             <textarea
               className="resize-none bg-[#0085A8] outline-none"
@@ -21,9 +67,16 @@ const HomeContainer = () => {
               cols="20"
               rows="3"
               placeholder="Enter Notes here ..."
+              value={formData.description}
+              onChange={(e) =>
+                setFormData({ ...formData, description: e.target.value })
+              }
             ></textarea>
           </div>
-          <button className="self-end bg-white text-green-600 rounded-full cursor-pointer">
+          <button
+            onClick={handleClick}
+            className="self-end bg-white text-green-600 rounded-full cursor-pointer"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -41,7 +94,7 @@ const HomeContainer = () => {
           </button>
         </div>
       </div>
-      <NotesContainer />
+      <NotesContainer apiData={apiData} setApiData={setApiData} />
     </>
   );
 };

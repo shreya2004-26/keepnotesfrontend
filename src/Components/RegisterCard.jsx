@@ -8,13 +8,14 @@ const RegisterCard = () => {
     email: "",
     password: "",
   });
+  const [apiData, setApiData] = useState(null);
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
-    const res = await axios.post(
-      "http://localhost:8000/api/register",
-      formData
-    );
+    const res = await axios.post("http://localhost:8000/api/register", {
+      email: localStorage.getItem("email"),
+      ...formData,
+    });
     console.log(res.data);
     const { success, message } = res.data;
     if (success) {

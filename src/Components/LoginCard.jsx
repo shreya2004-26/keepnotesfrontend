@@ -8,7 +8,8 @@ const LoginCard = () => {
   const handleSubmit = async () => {
     const res = await axios.post("http://localhost:8000/api/login", formData);
     // console.log(res.data)
-    const { success, message } = res.data;
+    const { success, message, data } = res.data;
+    // console.log(res.data);
     if (success) {
       toast.success(message, {
         position: "top-right",
@@ -20,7 +21,8 @@ const LoginCard = () => {
         progress: undefined,
         theme: "dark",
       });
-      setFormData({ name: "", email: "", password: "" });
+      setFormData({ email: "", password: "" });
+      localStorage.setItem("email", data.email);
       navigate("/");
     } else {
       toast.error(message, {
