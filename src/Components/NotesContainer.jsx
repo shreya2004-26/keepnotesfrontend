@@ -13,7 +13,7 @@ const NotesContainer = ({ apiData, setApiData }) => {
 
   useEffect(() => {
     getAllNotes();
-  }, []);
+  }, [apiData]);
   return (
     <>
       <div className="grid grid-cols-4 items-center ml-12 mt-9">

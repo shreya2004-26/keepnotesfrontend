@@ -15,7 +15,7 @@ const HomeContainer = () => {
       email: localStorage.getItem("email"),
       ...formData,
     });
-    console.log(res);
+    // console.log(res);
     // console.log(formData);
     if (res.data.success) {
       // console.log(res.data.success);
@@ -30,7 +30,8 @@ const HomeContainer = () => {
         theme: "dark",
       });
 
-      setApiData(res.data.data.success);
+      setApiData(res.data.data.notes);
+      // console.log(res.data.data.notes);
       setFormData({ title: "", description: "" });
     } else {
       toast.error(res.data.message, {

@@ -3,13 +3,15 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 
 const NotesCard = ({ title, description, id, apiData, setApiData }) => {
+  
   const handleClick = async () => {
+    console.log("testing");
     const res = await axios.delete(
       `http://localhost:8000/api/notes/?email=${localStorage.getItem(
         "email"
       )}&id=${id}`
     );
-
+    console.log(res.data.data.notes);
     if (res.data.success) {
       toast.success(res.data.message, {
         position: "top-right",
@@ -40,7 +42,7 @@ const NotesCard = ({ title, description, id, apiData, setApiData }) => {
       <div className="flex flex-col w-[260px] bg-[#0085A8] py-6 px-5 mt-7 text-white gap-3 rounded-md">
         <h1 className="font-semibold">{title}</h1>
         <textarea
-          className="resize-none bg-[#0085A8] outline-none"
+          className=" font-normal resize-none bg-[#0085A8] outline-none"
           // name=""
           id=""
           cols="20"
